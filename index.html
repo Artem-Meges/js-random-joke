@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/normalize.css">
+    <link rel="stylesheet" href="css/style.css">
+    <title>Document</title>
+</head>
+<body>
+    
+    <main>
+
+        <div class="container">
+            <header class="header">
+                <h1>MSI 2020</h1>
+            </header>
+            
+            <section class="choose-joke">
+                <h2>Hey!</h2>
+                <p>Let’s try to find a joke for you:</p>
+    
+                <form>
+                    <div class="inputs">
+                        <label class="input-container">
+                            <input type="radio" id="input-random" name="choose" value="Random" checked onchange="chooseRandom()">
+                            <span class="radiomark"></span>
+                            Random
+                        </label>
+
+                        <label class="input-container">
+                            <input type="radio" id="input-from-categories" name="choose" value="From caterogies" onchange="showInputsButtons()">
+                            <span class="radiomark"></span>
+                            From caterogies
+                        </label>
+                        
+                        <div class="inputs__buttons">
+                            <input type="button" id="animal-btn" value="animal">
+                            <input type="button" id="career-btn" value="career">
+                            <input type="button" id="celebrity-btn" value="celebrity">
+                            <input type="button" id="dev-btn" value="dev"> 
+                        </div>
+                        
+                        <label class="input-container">
+                            <input type="radio" id="input-search" name="choose" value="Search" onchange="showInputTextSearch()">
+                            <span class="radiomark"></span>
+                            Search
+                        </label>
+
+                        <input type="text" class="input-text-search" placeholder="Free text search...">
+
+                        <input type="button" class="input-get-joke" value="Get a joke">
+                    </div>
+                </form>
+            </section>
+    
+            <div class="jokes-container">            
+            </div>
+            
+        </div>
+
+    </main>
+
+    <aside class="favourite">
+        <h2>Favourite</h2>
+    </aside>
+
+<script src="js/main.js"></script>    
+</body>
+</html>
