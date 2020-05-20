@@ -116,7 +116,7 @@ h1 {
     background-color: #fff;
     padding: 6px 15px;
     cursor: pointer;
-    margin-right: 10px;
+    margin: 0 10px 10px 0;
 }
 
 .inputs__buttons input:focus {
@@ -124,7 +124,7 @@ h1 {
     color: #333333;
 }
 
-.input-text-search {
+#input-text-search {
     border: 2px solid #333333;
     border-radius: 10px;
     padding: 10px 15px;
@@ -134,7 +134,8 @@ h1 {
     display: none;
 }
 
-.input-get-joke {
+.input-get-joke,
+#favourite__clear {
     background: linear-gradient(92.01deg, #8EA7FF 0%, #7291FF 100%);
     border-radius: 10px;
     border: none;
@@ -148,8 +149,9 @@ h1 {
     margin: 20px 0 40px 0;
 }
 
-#render-joke {
-    max-width: 720px;
+#render-joke,
+#favourite-joke {
+    max-width: 700px;
     min-height: 225px;
     background: #F8F8F8;
     border-radius: 20px;
@@ -160,11 +162,17 @@ h1 {
     margin-bottom: 20px;
 }
 
-.render-joke__inner {
+#favourite-joke {
+    background-color: #fff;
+}
+
+.render-joke__inner,
+.favourite-joke__inner {
     display: flex;
 }
 
-.render-joke__icon {
+.render-joke__icon,
+.favourite-joke__icon {
     background: #fff;
     border-radius: 50%;
     height: 36px;
@@ -176,7 +184,8 @@ h1 {
     margin-right: 20px;
 }
 
-.render-joke__id {
+.render-joke__id,
+.favourite-joke__id {
     font-weight: 500;
     font-size: 10px;
     line-height: 14px;
@@ -184,37 +193,37 @@ h1 {
     margin-bottom: 5px;
 }
 
-.render-joke__id a {
+.render-joke__id a,
+.favourite-joke__id a {
     margin-right: 5px;
 }
 
-.render-joke__id img {
+.render-joke__id img,
+.favourite-joke__id img {
     margin-left: 10px;
 }
 
-.render-joke__text {
+.render-joke__text,
+.favourite-joke__text {
     margin-bottom: 28px;
     font-size: 18px;
     line-height: 26px;
 }
 
-.render-joke__footer {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
-.render-joke__update {
+.render-joke__update,
+.favourite-joke__update {
     font-size: 10px;
     line-height: 14px;
     color: #ABABAB;
 }
 
-.render-joke__update span {
+.render-joke__update span,
+.favourite-joke__update span {
     font-weight: 500;
 }
 
-.render-joke__category {
+.render-joke__category,
+.favourite-joke__category {
     border-radius: 6px;
     padding: 6px 20px;
     font-weight: 500;
@@ -223,6 +232,9 @@ h1 {
     letter-spacing: 2px;
     background-color: #fff;
     text-transform: uppercase;
+    position: absolute;
+    bottom: 53px;
+    right: 50px;
 }
 
 .render-joke__favourite {
@@ -246,6 +258,12 @@ h1 {
     font-size: 20px;
     line-height: 28px;
     color: #ABABAB;
+}
+
+#favourite__clear {
+    background: #99a09f;
+    padding: 10px 40px;
+    margin: 0;
 }
 
 .favourite--mobile {
@@ -352,6 +370,12 @@ h1 {
 @media (max-width: 500px) {
     .favourite {
         width: 100vw;
+    }
+
+    .render-joke__footer {
+        flex-direction: column;
+        max-width: 129px;
+        min-height: 49px;
     }
 }
 
