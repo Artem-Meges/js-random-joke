@@ -8,16 +8,20 @@ const inputRandom = document.getElementById('input-random'),
       inputSearch = document.querySelector('.input-search'),
       inputTextSearch = document.querySelector('.input-text-search'),
       inputGetJoke = document.querySelector('.input-get-joke'),
-      renderJoke = document.querySelector('.render-joke'),
+      renderJoke = document.getElementById('render-joke'),
       renderJokeId = document.querySelector('.render-joke__id'),
       renderJokeText = document.querySelector('.render-joke__text'),
       renderJokeUpdate = document.querySelector('.render-joke__update'),
       renderJokeCategory = document.querySelector('.render-joke__category'),
-      renderJokeFavourite = document.querySelector('.render-joke__favourite'),
-      jokesContainer = document.querySelector('.jokes-container');
+      renderJokeFavourite = document.getElementById('render-joke__favourite'),
+      jokesContainer = document.querySelector('.jokes-container'),
+      favouriteContainer = document.getElementById('favourite__container'),
+      mobileBtn = document.getElementById('mobile-btn'),
+      favourite = document.querySelector('.favourite');
 
+const PROXY = 'https://cors-anywhere.herokuapp.com/';
+let markup;    
 
-    
 const chooseRandom = () => {
     inputTextSearch.style.display = 'none';
     inputsButtons.style.display = 'none';
@@ -39,60 +43,67 @@ const createJoke = (url) => {
         return res.json();
     })
     .then(data => {
-        let jokeText = data.value,
-            jokeId = data.id,
-            lastUpdate = Math.floor( Math.abs( new Date() - Date.parse(data.updated_at) ) / 36e5 ),
-            jokeCategory = data.categories,
-            jokeLink = data.url;
-        
-        let markup = `
-        <div class="render-joke">
-                <div class="render-joke__inner">
-                <div class="render-joke__icon">
-                    <img src="img/joke-icon.svg" alt="">
-                </div>
-                
-                <div class="render-joke__info">
-                    <div class="render-joke__id">
-                        ID:
-                        <a href="${jokeLink}" target="_blank">${jokeId}
-                           <img src="img/link.svg" alt="">
-                        </a>
-                    </div>
+        let lastUpdate = Math.floor( Math.abs( new Date() - Date.parse(data.updated_at) ) / 36e5 );      
+            markup = `
+                    <div id="render-joke">
+                            <div class="render-joke__inner">
+                            <div class="render-joke__icon">
+                                <img src="img/joke-icon.svg" alt="">
+                            </div>
+                            
+                            <div class="render-joke__info">
+                                <div class="render-joke__id">
+                                    ID:
+                                    <a href="${data.url}" target="_blank">${data.id}
+                                    <img src="img/link.svg" alt="">
+                                    </a>
+                                </div>
 
-                    <div class="render-joke__text">
-                        ${jokeText}
-                    </div>
+                                <div class="render-joke__text">
+                                    ${data.value}
+                                </div>
 
-                    <div class="render-joke__footer">
+                                <div class="render-joke__footer">
 
-                        <div class="render-joke__update">
-                            Last update: <span>${lastUpdate} hours ago</span>
+                                    <div class="render-joke__update">
+                                        Last update: <span>${lastUpdate} hours ago</span>
+                                    </div>
+
+                                </div>
+                            </div>
+
+                            <div class="render-joke__favourite" onclick="addToFavourite()">
+                                <img src="img/favourite.svg" alt="">
+                            </div>
                         </div>
-
                     </div>
-                </div>
+                    `
 
-                <div class="render-joke__favourite">
-                    <img src="img/favourite.svg" alt="">
-                </div>
-            </div>
-        </div>
-        `
+    jokesContainer.insertAdjacentHTML('afterbegin', markup);
 
-    jokesContainer.insertAdjacentHTML('afterbegin', markup); 
-    console.log(data);
-       
     }); 
+}
+
+const addToFavourite = () => {
+    favouriteContainer.insertAdjacentHTML('afterbegin', markup);
 }
 
 inputGetJoke.addEventListener('click', () => {
     if (inputRandom.checked) {
         createJoke('https://api.chucknorris.io/jokes/random');
-    } else if (animalBtn.clicked) {
-        
     }
 });
+
+$(mobileBtn).on('click', function() {
+    $(this).toggleClass('open');
+    $(favourite).slideToggle();
+    $('main').toggleClass('blackout');
+});
+
+
+
+
+
 
 
 

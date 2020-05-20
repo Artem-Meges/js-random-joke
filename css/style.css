@@ -18,7 +18,7 @@ main {
 }
 
 .container {
-    width: 680px;
+    max-width: 680px;
     margin: 0 auto;
     padding: 0 20px;
 }
@@ -148,8 +148,8 @@ h1 {
     margin: 20px 0 40px 0;
 }
 
-.render-joke {
-    min-width: 720px;
+#render-joke {
+    max-width: 720px;
     min-height: 225px;
     background: #F8F8F8;
     border-radius: 20px;
@@ -235,7 +235,10 @@ h1 {
 .favourite {
     background-color: #F8F8F8;
     flex: 1;
-    padding: 40px 40px;
+}
+
+.favourite__inner {
+    padding: 10px;
 }
 
 .favourite h2 {
@@ -243,4 +246,118 @@ h1 {
     font-size: 20px;
     line-height: 28px;
     color: #ABABAB;
+}
+
+.favourite--mobile {
+    display: none;
+}
+
+.blackout {
+    background: rgba(0 0 0 / 30%);
+}
+
+@media (max-width: 1350px) {
+    .favourite {
+        flex: 2;
+    }
+}
+
+@media (max-width: 834px) {
+    .favourite {
+        display: none;
+        position: absolute;
+        right: 0;
+        height: 100vh;
+        width: 60vw;
+    }
+
+    .favourite h2 {
+        display: none;
+    }
+
+    .favourite--mobile {
+        display: flex; 
+        width: 118px;
+        height: 50px;
+        align-items: center;
+        justify-content: space-between;
+        margin-right: 25px;
+        position: absolute;
+        right: 0;
+    }
+
+    .favourite--mobile h2{
+        font-weight: 500;
+        font-size: 20px;
+        line-height: 28px;
+        color: #ABABAB;
+        z-index: 2;
+    }
+
+    #mobile-btn {
+        width: 28px;
+        height: 28px;
+        border-radius: 50%;
+        background-color: #333333;
+        position: relative;
+        cursor: pointer;
+    }
+
+    #mobile-btn span {
+        background-color: #fff;
+        position: absolute;
+        width: 14px;
+        height: 2px;
+        border-radius: 2px;
+        top: 10px;
+        left: 7px;
+    }
+
+    #mobile-btn span + span {
+        top: 16px;
+    }
+
+    #mobile-btn.open span:nth-child(1) {
+        transform: rotate(45deg);
+        top: 13px;
+        left: 7px;
+    }
+
+    #mobile-btn.open span:nth-child(2) {
+        transform: rotate(-45deg);
+        top: 13px;
+        left: 7px;
+    }
+
+    #render-joke {
+        margin-top: 10px;
+    }
+}
+
+@media (max-width: 700px) {
+    .favourite {
+        width: 72vw;
+    }
+
+    #render-joke {
+        padding: 25px;
+    }
+
+    .render-joke__favourite {
+        top: 30px;
+        right: 30px;
+    }
+}
+
+@media (max-width: 500px) {
+    .favourite {
+        width: 100vw;
+    }
+}
+
+@media (max-width: 380px) {
+    .render-joke__favourite {
+        top: 20px;
+        right: 20px;
+    }
 }
