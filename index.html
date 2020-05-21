@@ -25,26 +25,26 @@
                 <form>
                     <div class="inputs">
                         <label class="input-container">
-                            <input type="radio" id="input-random" name="choose" value="Random" checked onchange="chooseRandom()">
+                            <input type="radio" id="input-random" name="choose" value="Random" checked>
                             <span class="radiomark"></span>
                             Random
                         </label>
 
                         <label class="input-container">
-                            <input type="radio" id="input-from-categories" name="choose" value="From caterogies" onchange="showInputsButtons()">
+                            <input type="radio" id="input-from-categories" name="choose" value="From caterogies">
                             <span class="radiomark"></span>
                             From caterogies
                         </label>
                         
                         <div class="inputs__buttons">
-                            <input type="button" id="animal-btn" value="animal">
-                            <input type="button" id="career-btn" value="career">
-                            <input type="button" id="celebrity-btn" value="celebrity">
-                            <input type="button" id="dev-btn" value="dev"> 
+                            <input type="button" class="category-btn" value="animal" onclick="createCategoryJoke('animal')">
+                            <input type="button" class="category-btn" value="career" onclick="createCategoryJoke('career')">
+                            <input type="button" class="category-btn" value="celebrity" onclick="createCategoryJoke('celebrity')">
+                            <input type="button" class="category-btn" value="dev" onclick="createCategoryJoke('dev')"> 
                         </div>
                         
                         <label class="input-container">
-                            <input type="radio" id="input-search" name="choose" value="Search" onchange="showInputTextSearch()">
+                            <input type="radio" id="input-search" name="choose" value="Search">
                             <span class="radiomark"></span>
                             Search
                         </label>
@@ -64,46 +64,11 @@
 
     <aside class="favourite">
         <div class="favourite__inner">
-            <h2>Favourite</h2>
-            <input type="button" id="favourite__clear" value="Clear">
-            <div id="favourite-container">
-                <!-- <div id="favourite-joke">
-                        <div class="favourite-joke__inner">
-                            <div class="favourite-joke__icon">
-                                <img src="img/joke-icon.svg" alt="">
-                            </div>
-                        
-                            <div class="favourite-joke__info">
-                                <div class="render-joke__id">
-                                    ID:
-                                    <a href="${data.url}" target="_blank">${data.id}
-                                        <img src="img/link.svg" alt="">
-                                    </a>
-                                </div>
-
-                                <div class="favourite-joke__text">
-                                    ${data.value}
-                                </div>
-
-                                <div class="favourite-joke__footer">
-
-                                    <div class="favourite-joke__update">
-                                        Last update: <span>${lastUpdate} hours ago</span>
-                                    </div>
-
-                                    <div class="favourite-joke__category">
-                                        ${category}
-                                    </div>
-
-                                </div>
-                            </div>
-
-                            <div class="favourite-joke__heart" onclick="addToFavourite()">
-                                <img src="img/heart.svg" alt=""">
-                            </div>
-                        </div>
-                </div>  -->
+            <div class="favourite__header">
+                <h2>Favourite</h2>
+                <input type="button" id="favourite__clear" value="Clear">
             </div>
+            <div id="favourite-container"></div>
     </aside>
 
     <aside class="favourite--mobile">
@@ -115,6 +80,6 @@
     </aside>
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-<script src="js/main.js"></script>    
+<script src="js/script.js"></script>    
 </body>
 </html>
