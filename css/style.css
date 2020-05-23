@@ -17,7 +17,7 @@ main {
     flex: 2;
 }
 
-input[type="button"]:focus {
+input:focus {
     outline: none;
 }
 
@@ -108,7 +108,7 @@ h1 {
     display: none;
 }
 
-.inputs__buttons input {
+.category-btn {
     border: 2px solid #F8F8F8;
     border-radius: 6px;
     font-weight: 500;
@@ -121,11 +121,13 @@ h1 {
     padding: 6px 15px;
     cursor: pointer;
     margin: 0 10px 10px 0;
+    transition: all 0.1s;
 }
 
-.inputs__buttons input:hover {
+.category-btn:hover {
     background: #F8F8F8;
     color: #333333;
+    box-shadow: 0px 3px 8px 0px #767676;
 }
 
 #input-text-search {
@@ -138,15 +140,14 @@ h1 {
     display: none;
 }
 
-.ticket {
-    background-color: #fff;
-    width: 300px;
-    height: 300px;
+.inputs__inner {
+    display: flex;
+    justify-content: space-between;
+    margin: 20px 0 40px 0;
+    align-items: center;
 }
 
-
-.input-get-joke,
-#favourite__clear {
+.btn {
     background: linear-gradient(92.01deg, #8EA7FF 0%, #7291FF 100%);
     border-radius: 10px;
     border: none;
@@ -157,7 +158,23 @@ h1 {
     line-height: 22px;
     max-width: 152px;
     cursor: pointer;
-    margin: 20px 0 40px 0;
+    box-shadow: 0px 5px 10px #767676;
+    transition: all 0.3s;
+}
+
+.btn:hover {
+    box-shadow: 0px 10px 20px 0px #767676;
+}
+
+.btn:active,
+.category-btn:active {
+    box-shadow: 0px 4px 8px #767676;
+    -webkit-transform: scale(0.98);
+    transform: scale(0.98);
+}
+
+#input-text-search:focus {
+    box-shadow: 0px 10px 30px #767676;
 }
 
 #render-joke {
@@ -274,6 +291,7 @@ h1 {
 #render-joke {
     background-color: #fff;
     max-width: 557px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
 }
 
 #favourite-container
@@ -281,10 +299,12 @@ h1 {
     background-image: url(../img/favourite-2.svg);
 }
 
-#favourite__clear {
+#favourite__clear,
+#jokes-clear {
     background: #99a09f;
     padding: 10px 40px;
     margin: 0;
+    max-height: 42px;
 }
 
 .favourite--mobile {

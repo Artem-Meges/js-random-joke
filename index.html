@@ -31,16 +31,16 @@
                         </label>
 
                         <label class="input-container">
-                            <input type="radio" id="input-from-categories" name="choose" value="From caterogies">
+                            <input type="radio" id="input-from-categories" name="choose" value="From categories">
                             <span class="radiomark"></span>
-                            From caterogies
+                            From categories
                         </label>
                         
                         <div class="inputs__buttons">
-                            <input type="button" class="category-btn" value="animal" onclick="createCategoryJoke('animal')">
-                            <input type="button" class="category-btn" value="career" onclick="createCategoryJoke('career')">
-                            <input type="button" class="category-btn" value="celebrity" onclick="createCategoryJoke('celebrity')">
-                            <input type="button" class="category-btn" value="dev" onclick="createCategoryJoke('dev')"> 
+                            <input type="button" class="category-btn" value="animal" onclick="createJoke( getURL() )">
+                            <input type="button" class="category-btn" value="career" onclick="createJoke( getURL() )">
+                            <input type="button" class="category-btn" value="celebrity" onclick="createJoke( getURL() )">
+                            <input type="button" class="category-btn" value="dev" onclick="createJoke( getURL() )"> 
                         </div>
                         
                         <label class="input-container">
@@ -49,11 +49,16 @@
                             Search
                         </label>
 
-                        <input type="text" id="input-text-search" placeholder="Free text search...">
+                        <input type="search" id="input-text-search" placeholder="Free text search...">
 
-                        <input type="button" class="input-get-joke" value="Get a joke">
+                        <div class="inputs__inner">
+                            <input type="button" class="input-show-joke btn" value="Get a joke" onclick="createJoke( getURL() )">
+                            <input type="button" id="jokes-clear" class="btn" value="Clear">
+                        </div>
+
                     </div>
                 </form>
+
             </section>
     
             <div class="jokes-container"></div>
@@ -63,12 +68,11 @@
     </main>
 
     <aside class="favourite">
-        <div class="favourite__inner">
-            <div class="favourite__header">
-                <h2>Favourite</h2>
-                <input type="button" id="favourite__clear" value="Clear">
-            </div>
-            <div id="favourite-container"></div>
+        <div class="favourite__header">
+            <h2>Favourite</h2>
+            <input type="button" id="favourite__clear" class="btn" value="Clear">
+        </div>
+        <div id="favourite-container"></div>   
     </aside>
 
     <aside class="favourite--mobile">
