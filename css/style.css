@@ -177,7 +177,7 @@ h1 {
     box-shadow: 0px 10px 30px #767676;
 }
 
-#render-joke {
+.render-joke {
     max-width: 700px;
     min-height: 225px;
     background: #F8F8F8;
@@ -288,15 +288,10 @@ h1 {
 }
 
 #favourite-container 
-#render-joke {
+.render-joke {
     background-color: #fff;
     max-width: 557px;
     box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
-}
-
-#favourite-container
-#favourite-icon {
-    background-image: url(../img/favourite-2.svg);
 }
 
 #favourite__clear,
@@ -328,6 +323,10 @@ h1 {
         right: 0;
         height: 100vh;
         width: 60vw;
+    }
+
+    .show {
+        display: block;
     }
 
     .favourite h2 {
@@ -388,7 +387,7 @@ h1 {
         left: 7px;
     }
 
-    #render-joke {
+    .render-joke {
         margin-top: 10px;
     }
 
@@ -408,7 +407,7 @@ h1 {
         width: 72vw;
     }
 
-    #render-joke {
+    .render-joke {
         padding: 25px;
     }
 

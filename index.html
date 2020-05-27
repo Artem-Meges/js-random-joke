@@ -22,7 +22,7 @@
                 <h2>Hey!</h2>
                 <p>Let’s try to find a joke for you:</p>
     
-                <form>
+                <form id="choose-joke__form" method="get">
                     <div class="inputs">
                         <label class="input-container">
                             <input type="radio" id="input-random" name="choose" value="Random" checked>
@@ -37,10 +37,10 @@
                         </label>
                         
                         <div class="inputs__buttons">
-                            <input type="button" class="category-btn" value="animal" onclick="createJoke( getURL() )">
-                            <input type="button" class="category-btn" value="career" onclick="createJoke( getURL() )">
-                            <input type="button" class="category-btn" value="celebrity" onclick="createJoke( getURL() )">
-                            <input type="button" class="category-btn" value="dev" onclick="createJoke( getURL() )"> 
+                            <input type="button" class="category-btn" value="animal">
+                            <input type="button" class="category-btn" value="career">
+                            <input type="button" class="category-btn" value="celebrity">
+                            <input type="button" class="category-btn" value="dev"> 
                         </div>
                         
                         <label class="input-container">
@@ -52,7 +52,7 @@
                         <input type="search" id="input-text-search" placeholder="Free text search...">
 
                         <div class="inputs__inner">
-                            <input type="button" class="input-show-joke btn" value="Get a joke" onclick="createJoke( getURL() )">
+                            <input type="button" class="input-show-joke btn" value="Get a joke">
                             <input type="button" id="jokes-clear" class="btn" value="Clear">
                         </div>
 
@@ -83,7 +83,6 @@
         <h2>Favourite</h2>
     </aside>
 
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script src="js/script.js"></script>    
 </body>
 </html>
