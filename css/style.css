@@ -177,7 +177,8 @@ h1 {
     box-shadow: 0px 10px 30px #767676;
 }
 
-.render-joke {
+.render-joke,
+.fav-joke {
     max-width: 700px;
     min-height: 225px;
     background: #F8F8F8;
@@ -288,7 +289,8 @@ h1 {
 }
 
 #favourite-container 
-.render-joke {
+.render-joke,
+.fav-joke {
     background-color: #fff;
     max-width: 557px;
     box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);

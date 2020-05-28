@@ -1,8 +1,6 @@
 // Как сделать sumbit и получать инфу какая кнопка нажата
 // Разобратся с поиском по слову
-// Добавление в избранное
-// Если есть в избранном не добавлять
-// Сердечко белое при удалении из избранного
+// При удалении из избранного в поиске сердечко меняется
 const main = document.querySelector('main'),
       chooseJokeForm = document.querySelector('#choose-joke__form'),      
       inputRandom = document.querySelector('#input-random'),
@@ -21,8 +19,13 @@ const RANDOM_URL = 'https://api.chucknorris.io/jokes/random';
 
 let favouriteJokesArr = localStorage.getItem('jokeCards') ? JSON.parse(localStorage.getItem('jokeCards')) : []; //
 
-
-favouriteJokesArr.forEach( joke => favouriteContainer.prepend(joke) );
+// Вывести шутки из localstorage
+favouriteJokesArr.forEach( joke => {
+    favCard = document.createElement('article');
+    favCard.className = 'fav-joke';
+    favCard.innerHTML = joke; 
+    favouriteContainer.prepend(favCard);
+});
 
 const getURL = () => {
     let categoryURL = `${RANDOM_URL}?category=${event.target.value}`,
@@ -38,13 +41,15 @@ const getURL = () => {
 const createJoke = url => {
     fetch(url)
     .then( res => res.json() )
-    .then( data => {
-        const category = data.categories.length ? `<div class="render-joke__category">${data.categories[0]}</div>` : '',
-              lastUpdate = Math.floor( Math.abs( new Date() - Date.parse(data.updated_at) ) / 36e5 );
-              
+    .then( data => {        
         jokeCard = document.createElement('article');
         jokeCard.className = 'render-joke';
-        jokeCard.innerHTML = `
+
+        if (inputTextSearch.value) {
+            const randomJoke = Math.floor( Math.random() * data.result.length ),
+                lastUpdate = Math.floor( Math.abs( new Date() - Date.parse(data.result[randomJoke].updated_at) ) / 36e5 );
+
+                jokeCard.innerHTML = `<article id="render-joke">
                                 <div class="render-joke__inner">
                                     <div class="render-joke__icon">
                                         <img src="img/joke-icon.svg" alt="">
@@ -53,20 +58,19 @@ const createJoke = url => {
                                     <div class="render-joke__info">
                                         <div class="render-joke__id">
                                             ID:
-                                            <a href="${data.url}" target="_blank">${data.id}
+                                            <a href="${data.result[randomJoke].url}" target="_blank">${data.result[randomJoke].id}
                                                 <img src="img/link.svg" alt="">
                                             </a>
                                         </div>
 
                                         <div class="render-joke__text">
-                                            ${data.value}
+                                            ${data.result[randomJoke].value}
                                         </div>
 
                                         <div class="render-joke__footer">
                                             <div class="render-joke__update">
-                                                Last update: <span>${lastUpdate}hours ago</span>
+                                                Last update: <span>${lastUpdate} hours ago</span>
                                             </div>
-                                            ${category}
                                         </div>
                                     </div>
 
@@ -74,104 +78,44 @@ const createJoke = url => {
                                         <img id="favourite-icon" src="img/favourite-1.svg" data-backdrop="img/favourite-2.svg" alt=""">
                                     </div>
                                 </div>
-                            `
-        jokesContainer.prepend(jokeCard);                        
-        // if (inputTextSearch.value) {
-        //     let randomJoke = Math.floor( Math.random() * data.result.length ),
-        //         lastUpdate = Math.floor( Math.abs( new Date() - Date.parse(data.result[randomJoke].updated_at) ) / 36e5 );
+                            </article>`              
+    } else {
+        const category = data.categories.length ? `<div class="render-joke__category">${data.categories[0]}</div>` : '',
+              lastUpdate = Math.floor( Math.abs( new Date() - Date.parse(data.updated_at) ) / 36e5 );
+        jokeCard.innerHTML = `
+        <div class="render-joke__inner">
+            <div class="render-joke__icon">
+                <img src="img/joke-icon.svg" alt="">
+            </div>
 
-        //         jokeCard = `<article id="render-joke">
-        //                         <div class="render-joke__inner">
-        //                             <div class="render-joke__icon">
-        //                                 <img src="img/joke-icon.svg" alt="">
-        //                             </div>
-                
-        //                             <div class="render-joke__info">
-        //                                 <div class="render-joke__id">
-        //                                     ID:
-        //                                     <a href="${data.result[randomJoke].url}" target="_blank">${data.result[randomJoke].id}
-        //                                         <img src="img/link.svg" alt="">
-        //                                     </a>
-        //                                 </div>
+            <div class="render-joke__info">
+                <div class="render-joke__id">
+                    ID:
+                    <a href="${data.url}" target="_blank">${data.id}
+                        <img src="img/link.svg" alt="">
+                    </a>
+                </div>
 
-        //                                 <div class="render-joke__text">
-        //                                     ${data.result[randomJoke].value}
-        //                                 </div>
+                <div class="render-joke__text">
+                    ${data.value}
+                </div>
 
-        //                                 <div class="render-joke__footer">
-        //                                     <div class="render-joke__update">
-        //                                         Last update: <span>${lastUpdate} hours ago</span>
-        //                                     </div>
-        //                                 </div>
-        //                             </div>
+                <div class="render-joke__footer">
+                    <div class="render-joke__update">
+                        Last update: <span>${lastUpdate}hours ago</span>
+                    </div>
+                    ${category}
+                </div>
+            </div>
 
-        //                             <div class="render-joke__favourite">
-        //                                 <img id="favourite-icon" src="img/favourite-1.svg" alt=""">
-        //                             </div>
-        //                         </div>
-        //                     </article>`
-        // } else {
-        //     jokeCard = `<article id ="render-joke">
-        //                     <div class="render-joke__inner">
-        //                         <div class="render-joke__icon">
-        //                             <img src="img/joke-icon.svg" alt="">
-        //                         </div>
-                            
-        //                         <div class="render-joke__info">
-        //                             <div class="render-joke__id">
-        //                                 ID:
-        //                                 <a href="${data.url}" target="_blank">${data.id}
-        //                                     <img src="img/link.svg" alt="">
-        //                                 </a>
-        //                             </div>
-
-        //                             <div class="render-joke__text">
-        //                                 ${data.value}
-        //                             </div>
-
-        //                             <div class="render-joke__footer">
-        //                                 <div class="render-joke__update">
-        //                                     Last update: <span>${lastUpdate} hours ago</span>
-        //                                 </div>
-        //                             </div>
-        //                         </div>
-
-        //                         <div class="render-joke__favourite" onclick="addToFavourite()">
-        //                             <img id="favourite-icon" src="img/favourite-1.svg" alt=""">
-        //                         </div>
-        //                     </div>
-        //                 </article>`             
-        // }     
-        // jokesContainer.insertAdjacentHTML('afterbegin', jokeCard); 
-        console.log(data);              
-    });     
-};
-
-const addToFavourite = event => {
-    const favIco = event.target.closest('#favourite-icon');
-
-    if (!favIco) return;
-
-    favIco.src = favIco.dataset.backdrop;
-
-    const renderJoke = event.target.closest('.render-joke'),
-          favJoke = renderJoke.cloneNode(true);         
-
-    favouriteContainer.prepend(favJoke);
-    favouriteJokesArr.push(favJoke);
-    console.log(JSON.stringify(favJoke));
-    
-    localStorage.setItem( 'jokeCards', JSON.stringify(favouriteJokesArr) );  //
-};
-
-const removeFromFavourite = event => {
-    const favIco = event.target.closest('#favourite-icon');
-
-    if (!favIco) return;
-
-    const favJoke = event.target.closest('.render-joke');
-
-    favouriteContainer.remove(favJoke);
+            <div class="render-joke__favourite">
+                <img id="favourite-icon" src="img/favourite-1.svg" data-backdrop="img/favourite-2.svg" alt=""">
+            </div>
+        </div>
+    `                 
+    }     
+    jokesContainer.prepend(jokeCard);
+});      
 };
 
 chooseJokeForm.addEventListener('click', event => {
@@ -197,8 +141,41 @@ inputSearch.addEventListener('change', () => {
     inputsButtons.style.display = "none";
 });
 
-jokesContainer.addEventListener('click', addToFavourite);
-favouriteContainer.addEventListener('click', removeFromFavourite);
+// Добавить в избранное
+jokesContainer.addEventListener('click', event => {
+    const favIco = event.target.closest('#favourite-icon');
+
+    if (!favIco) return;
+
+    favIco.src = favIco.dataset.backdrop;
+
+    const renderJoke = event.target.closest('.render-joke'),
+          renderJokeInner = renderJoke.innerHTML;
+          
+    favCard = document.createElement('article');
+    favCard.className = 'fav-joke';
+    favCard.innerHTML = renderJokeInner;
+    
+    if ( favouriteJokesArr.includes(renderJokeInner) ) return;
+
+    favouriteContainer.prepend(favCard);
+    favouriteJokesArr.push(favCard.innerHTML);
+    localStorage.setItem( 'jokeCards', JSON.stringify(favouriteJokesArr) );
+});
+
+// Удалить из избранного
+favouriteContainer.addEventListener('click', event => {
+    const favIco = event.target.closest('#favourite-icon');
+
+    if (!favIco) return;
+
+    const favJoke = event.target.closest('.fav-joke'),
+          favJokeInner = favJoke.innerHTML;     
+
+    favouriteJokesArr.splice( favouriteJokesArr.indexOf(favJokeInner), 1 );   // Получаем индекс нажатой шутки, и удаляем её из масива
+    favJoke.remove();                                                         // Удаляем из favcontainer
+    localStorage.setItem( 'jokeCards', JSON.stringify(favouriteJokesArr) );   // Меняем localstorage
+});
 
 jokesClear.addEventListener('click', () => jokesContainer.innerHTML = "");
 
