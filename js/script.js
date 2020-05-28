@@ -1,6 +1,6 @@
 // Как сделать sumbit и получать инфу какая кнопка нажата
 // Разобратся с поиском по слову
-// При удалении из избранного в поиске сердечко меняется
+// При поиске шутки, если она уже в избранном сердечко красное
 const main = document.querySelector('main'),
       chooseJokeForm = document.querySelector('#choose-joke__form'),      
       inputRandom = document.querySelector('#input-random'),
@@ -27,6 +27,7 @@ favouriteJokesArr.forEach( joke => {
     favouriteContainer.prepend(favCard);
 });
 
+// Получить конкретный url
 const getURL = () => {
     let categoryURL = `${RANDOM_URL}?category=${event.target.value}`,
         searchURL = `${RANDOM_URL.slice(0, -6)}search?query=${inputTextSearch.value}`,
@@ -83,37 +84,41 @@ const createJoke = url => {
         const category = data.categories.length ? `<div class="render-joke__category">${data.categories[0]}</div>` : '',
               lastUpdate = Math.floor( Math.abs( new Date() - Date.parse(data.updated_at) ) / 36e5 );
         jokeCard.innerHTML = `
-        <div class="render-joke__inner">
-            <div class="render-joke__icon">
-                <img src="img/joke-icon.svg" alt="">
-            </div>
-
-            <div class="render-joke__info">
-                <div class="render-joke__id">
-                    ID:
-                    <a href="${data.url}" target="_blank">${data.id}
-                        <img src="img/link.svg" alt="">
-                    </a>
+            <div class="render-joke__inner">
+                <div class="render-joke__icon">
+                    <img src="img/joke-icon.svg" alt="">
                 </div>
 
-                <div class="render-joke__text">
-                    ${data.value}
-                </div>
-
-                <div class="render-joke__footer">
-                    <div class="render-joke__update">
-                        Last update: <span>${lastUpdate}hours ago</span>
+                <div class="render-joke__info">
+                    <div class="render-joke__id">
+                        ID:
+                        <a href="${data.url}" target="_blank">${data.id}
+                            <img src="img/link.svg" alt="">
+                        </a>
                     </div>
-                    ${category}
+
+                    <div class="render-joke__text">
+                        ${data.value}
+                    </div>
+
+                    <div class="render-joke__footer">
+                        <div class="render-joke__update">
+                            Last update: <span>${lastUpdate}hours ago</span>
+                        </div>
+                        ${category}
+                    </div>
+                </div>
+
+                <div class="render-joke__favourite">
+                    <img id="favourite-icon" src="img/favourite-1.svg" data-backdrop="img/favourite-2.svg" alt=""">
                 </div>
             </div>
-
-            <div class="render-joke__favourite">
-                <img id="favourite-icon" src="img/favourite-1.svg" data-backdrop="img/favourite-2.svg" alt=""">
-            </div>
-        </div>
-    `                 
+        `                 
     }     
+    
+    // const favJoke = favouriteJokesArr.find(joke => joke.innerHTML == jokeCard.innerHTML);
+    // if (favJoke) favJoke.querySelector('#favourite-icon').src = "img/favourite-2.svg";   
+
     jokesContainer.prepend(jokeCard);
 });      
 };
@@ -174,6 +179,12 @@ favouriteContainer.addEventListener('click', event => {
 
     favouriteJokesArr.splice( favouriteJokesArr.indexOf(favJokeInner), 1 );   // Получаем индекс нажатой шутки, и удаляем её из масива
     favJoke.remove();                                                         // Удаляем из favcontainer
+
+    const renderJoke = [...jokesContainer.querySelectorAll('.render-joke')]   // Получаю все элементы render-joke
+                       .find(joke => joke.innerHTML == favJokeInner);         // Нахожу тот который сходится с шуткой в избранном
+
+    if (renderJoke) renderJoke.querySelector('#favourite-icon').src = "img/favourite-1.svg";  // В той которой сошлась меняю сердечко
+
     localStorage.setItem( 'jokeCards', JSON.stringify(favouriteJokesArr) );   // Меняем localstorage
 });
 
