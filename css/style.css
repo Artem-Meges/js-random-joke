@@ -272,6 +272,7 @@ input:focus {
 .favourite {
     background-color: var(--grey);
     flex: 1;
+    width: 650px;
 }
 
 .favourite__header {
@@ -285,7 +286,6 @@ input:focus {
 }
 
 .favourite-container {
-    max-width: 556px;
     margin: 0 auto;
     padding: 0 20px;
     min-height: 100vh;
@@ -307,7 +307,7 @@ input:focus {
 
 @media (max-width: 1350px) {
     .favourite {
-        flex: 2;
+        width: 500px;
     }
 }
 
@@ -331,6 +331,21 @@ input:focus {
     .btn {
         padding: 10px 22px;
         max-width: 137px;
+    }
+
+    .favourite {
+        width: 450px;
+    }
+}
+
+@media (max-width: 950px) {
+    .joke-card__favourite {
+        top: 25px;
+        right: 25px;
+    }
+
+    .favourite {
+        width: 400px;
     }
 }
 
@@ -425,11 +440,6 @@ input:focus {
 @media (max-width: 700px) {
     .favourite {
         width: 72vw;
-    }
-
-    .joke-card__favourite {
-        top: 30px;
-        right: 30px;
     }
 }
 

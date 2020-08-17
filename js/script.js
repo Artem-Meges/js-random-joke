@@ -214,6 +214,17 @@ favouriteContainer.addEventListener('click', function(e) {
 favouriteClear.addEventListener('click', function() {
     localStorage.clear();
 
+    favJokes.forEach(item => {
+        if ( jokesContainer.querySelector(`#j${item.id}`) ) {
+            const card = jokesContainer.querySelector(`#j${item.id}`)
+                .querySelector('.joke-card__favourite');
+
+            card.classList.remove('fav-joke-icon');
+            card.classList.add('random-joke-icon');
+        }
+    });
+
+    favJokes.length = 0;
     favouriteContainer.innerHTML = '';
 });
 
