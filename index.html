@@ -11,68 +11,84 @@
 </head>
 <body>
     
-    <main>
-
+    <main class="main">
         <div class="container">
             <header class="header">
-                <h1>MSI 2020</h1>
+                <h1>Chuck Norris Jokes</h1>
             </header>
             
-            <section class="choose-joke">
+            <section class="find-joke">
                 <h2>Hey!</h2>
                 <p>Let’s try to find a joke for you:</p>
     
-                <form id="choose-joke__form" method="get">
-                    <div class="inputs">
-                        <label class="input-container">
-                            <input type="radio" id="input-random" name="choose" value="Random" checked>
-                            <span class="radiomark"></span>
-                            Random
-                        </label>
+                <form id="find-joke__form" class="find-joke__form">
+                    <label class="input-label random">
+                        <input type="radio" name="choose-type" value="random">
+                        <span class="radiomark"></span>
+                        Random
+                    </label>
 
-                        <label class="input-container">
-                            <input type="radio" id="input-from-categories" name="choose" value="From categories">
-                            <span class="radiomark"></span>
-                            From categories
-                        </label>
+                    <label class="input-label categories">
+                        <input type="radio" name="choose-type" value="categories">
+                        <span class="radiomark"></span>
+                        From categories
+                    </label>
                         
-                        <div class="inputs__buttons">
-                            <input type="button" class="category-btn" value="animal">
-                            <input type="button" class="category-btn" value="career">
-                            <input type="button" class="category-btn" value="celebrity">
-                            <input type="button" class="category-btn" value="dev"> 
-                        </div>
-                        
-                        <label class="input-container">
-                            <input type="radio" id="input-search" name="choose" value="Search">
-                            <span class="radiomark"></span>
-                            Search
+                    <div class="category-buttons hide">
+                        <label>
+                            <input type="radio" value="animal" name="category">
+                            <span class="category-btn">Animal</span>   
                         </label>
 
-                        <input type="search" id="input-text-search" placeholder="Free text search...">
+                        <label>
+                            <input type="radio" class="category-btn" value="career" name="category">
+                            <span class="category-btn">Carrer</span>
+                        </label>
 
-                        <div class="inputs__inner">
-                            <input type="button" class="input-show-joke btn" value="Get a joke">
-                            <input type="button" id="jokes-clear" class="btn" value="Clear">
-                        </div>
+                        <label>
+                            <input type="radio" class="category-btn" value="celebrity" name="category">
+                            <span class="category-btn">Celebrity</span>
+                        </label>
 
+                        <label>
+                            <input type="radio" class="category-btn" value="dev" name="category">
+                            <span class="category-btn">Dev</span>
+                        </label> 
+
+                        <label>
+                            <input type="radio" class="category-btn" value="food" name="category">
+                            <span class="category-btn">Food</span>
+                        </label> 
                     </div>
+                        
+                    <label class="input-label search">
+                        <input type="radio" name="choose-type" value="search">
+                        <span class="radiomark"></span>
+                        Search
+                    </label>
+
+                    <input class="hide input-text-search" type="search" id="input-text-search" placeholder="Free text search..."> 
+                        
+                    <div class="find-joke__form-inner">
+                        <input type="submit" class="input-show-joke btn" value="Get a joke">
+                        <button id="search-clear" class="btn clear-btn">Clear</button>
+                    </div> 
                 </form>
 
             </section>
     
-            <div class="jokes-container"></div>
+            <div class="jokes-container" id="jokes-container"></div>
          
         </div>
 
     </main>
 
-    <aside class="favourite">
-        <div class="favourite__header">
+    <aside id="favourite-section" class="favourite">
+        <header class="favourite__header">
             <h2>Favourite</h2>
-            <input type="button" id="favourite__clear" class="btn" value="Clear">
-        </div>
-        <div id="favourite-container"></div>   
+            <button id="favourite__clear" class="btn clear-btn">Clear</button>
+        </header>
+        <div class="favourite-container" id="favourite-container"></div>   
     </aside>
 
     <aside class="favourite--mobile">
@@ -83,6 +99,6 @@
         <h2>Favourite</h2>
     </aside>
 
-<script src="js/script.js"></script>    
+    <script src="js/script.js"></script>    
 </body>
 </html>

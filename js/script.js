@@ -1,207 +1,227 @@
-// Как сделать sumbit и получать инфу какая кнопка нажата
-// Разобратся с поиском по слову
-// При поиске шутки, если она уже в избранном сердечко красное
-const main = document.querySelector('main'),
-      chooseJokeForm = document.querySelector('#choose-joke__form'),      
-      inputRandom = document.querySelector('#input-random'),
-      inputsButtons = document.querySelector('.inputs__buttons'),
-      inputFromCategories = document.querySelector('#input-from-categories'),
-      inputSearch = document.querySelector('#input-search'),
-      inputTextSearch = document.querySelector('#input-text-search'),
-      jokesContainer = document.querySelector('.jokes-container'),
+const findJokeForm = document.querySelector('#find-joke__form'),      
+      jokesContainer = document.querySelector('#jokes-container'),
+      categoryButtons = document.querySelector('.category-buttons'),
+      textSearch = document.querySelector('#input-text-search'),
       favouriteContainer = document.querySelector('#favourite-container'),
+      searchClear = document.querySelector('#search-clear'),
+      favouriteClear = document.querySelector('#favourite__clear'),
       mobileBtn = document.querySelector('#mobile-btn'),
-      favourite = document.querySelector('.favourite'),
-      jokesClear = document.querySelector('#jokes-clear'),
-      favouriteClear = document.querySelector('#favourite__clear');
+      favouriteSection = document.querySelector('#favourite-section');
 
-const RANDOM_URL = 'https://api.chucknorris.io/jokes/random';
+const URL = 'https://api.chucknorris.io/jokes/random';
 
-let favouriteJokesArr = localStorage.getItem('jokeCards') ? JSON.parse(localStorage.getItem('jokeCards')) : []; //
+let data = localStorage.getItem('fav-jokes'),
+    favJokes,
+    temporaryJokes = [];
 
-// Вывести шутки из localstorage
-favouriteJokesArr.forEach( joke => {
-    favCard = document.createElement('article');
-    favCard.className = 'fav-joke';
-    favCard.innerHTML = joke; 
-    favouriteContainer.prepend(favCard);
-});
-
-// Получить конкретный url
-const getURL = () => {
-    let categoryURL = `${RANDOM_URL}?category=${event.target.value}`,
-        searchURL = `${RANDOM_URL.slice(0, -6)}search?query=${inputTextSearch.value}`,
-        currentURL;
-        
-    event.target.classList.value == "category-btn" ? currentURL = categoryURL : 
-    inputTextSearch.value ? currentURL = searchURL : currentURL = RANDOM_URL;
-    
-    return currentURL;
+if (data) {
+    favJokes = JSON.parse(data);
+    loadJokes(favJokes);
+} else {
+    favJokes = [];
 }
 
-const createJoke = url => {
+function loadJokes(favJokes) {
+    favJokes.forEach( data => jokeMaker(data, favouriteContainer) );
+}
+
+function getData(url) {
     fetch(url)
-    .then( res => res.json() )
-    .then( data => {        
-        jokeCard = document.createElement('article');
-        jokeCard.className = 'render-joke';
+        .then( data => data.json() )
+        .then(data => {
+            if (data.result) {
+                const max = data.result.length;
+                const randomNum = Math.floor(Math.random() * max);   //
 
-        if (inputTextSearch.value) {
-            const randomJoke = Math.floor( Math.random() * data.result.length ),
-                lastUpdate = Math.floor( Math.abs( new Date() - Date.parse(data.result[randomJoke].updated_at) ) / 36e5 );
+                const favourite = favJokes.find(item => item.id === data.result[randomNum].id);
+                if (favourite) {
+                    jokeMaker(favourite, jokesContainer);
+                } else {
+                    jokeMaker(data.result[randomNum], jokesContainer);
+                }
+            } else {
+                const favourite = favJokes.find(item => item.id === `j${data.id}`);
 
-                jokeCard.innerHTML = `<article id="render-joke">
-                                <div class="render-joke__inner">
-                                    <div class="render-joke__icon">
-                                        <img src="img/joke-icon.svg" alt="">
-                                    </div>
-                
-                                    <div class="render-joke__info">
-                                        <div class="render-joke__id">
-                                            ID:
-                                            <a href="${data.result[randomJoke].url}" target="_blank">${data.result[randomJoke].id}
-                                                <img src="img/link.svg" alt="">
-                                            </a>
-                                        </div>
+                if (favourite) {
+                    jokeMaker(favourite, jokesContainer);
+                } else {
+                    jokeMaker(data, jokesContainer);
+                }
+            }
+        });
+}
 
-                                        <div class="render-joke__text">
-                                            ${data.result[randomJoke].value}
-                                        </div>
+function jokeMaker(data, container) {
+    const { id, url, value, categories, isFavourite = false } = data;
+    let { updated_at } = data;
 
-                                        <div class="render-joke__footer">
-                                            <div class="render-joke__update">
-                                                Last update: <span>${lastUpdate} hours ago</span>
-                                            </div>
-                                        </div>
-                                    </div>
+    if ( typeof(updated_at) === 'string' ) {
+        updated_at = Math.floor(Math.abs( new Date() - new Date(updated_at) ) / 36e5);
+    }
 
-                                    <div class="render-joke__favourite">
-                                        <img id="favourite-icon" src="img/favourite-1.svg" data-backdrop="img/favourite-2.svg" alt=""">
-                                    </div>
-                                </div>
-                            </article>`              
-    } else {
-        const category = data.categories.length ? `<div class="render-joke__category">${data.categories[0]}</div>` : '',
-              lastUpdate = Math.floor( Math.abs( new Date() - Date.parse(data.updated_at) ) / 36e5 );
-        jokeCard.innerHTML = `
-            <div class="render-joke__inner">
-                <div class="render-joke__icon">
-                    <img src="img/joke-icon.svg" alt="">
-                </div>
+    temporaryJokes.push({ id, url, value, updated_at, categories, isFavourite });
 
-                <div class="render-joke__info">
-                    <div class="render-joke__id">
-                        ID:
-                        <a href="${data.url}" target="_blank">${data.id}
-                            <img src="img/link.svg" alt="">
-                        </a>
-                    </div>
+    const fav = isFavourite ? 'fav' : 'random';
 
-                    <div class="render-joke__text">
-                        ${data.value}
-                    </div>
+    const category = categories.length ? 
+    `<span class="joke-card__category">${categories[0]}</span>` : '';
 
-                    <div class="render-joke__footer">
-                        <div class="render-joke__update">
-                            Last update: <span>${lastUpdate}hours ago</span>
+    const out = `<article class="joke-card" id="j${id}">
+                    <div class="joke-card__inner">
+                        <div class="joke-card__img">
+                            <img src="img/joke-icon.svg">
                         </div>
-                        ${category}
+        
+                        <div class="joke-card__info">
+                            <div class="joke-card__id">
+                                ID:
+                                <a href="${url}" target="_blank">
+                                    ${id}
+                                    <img src="img/link.svg" alt="link">
+                                </a>
+                            </div>
+
+                            <div class="joke-card__text">
+                                ${value}
+                            </div>
+
+                                <footer class="joke-card__footer">
+                                    <div class="joke-card__update">
+                                        Last update: <span>${updated_at} hours ago</span>
+                                    </div>
+                                    ${category}
+                                </footer>
+                        </div>
+
+                        <div class="joke-card__favourite ${fav}-joke-icon"></div>
+
                     </div>
-                </div>
+                </article>`;
 
-                <div class="render-joke__favourite">
-                    <img id="favourite-icon" src="img/favourite-1.svg" data-backdrop="img/favourite-2.svg" alt=""">
-                </div>
-            </div>
-        `                 
-    }     
+    container.insertAdjacentHTML('afterbegin', out);
+}
+
+function addToFavourite(icon, id) {
+    const joke = temporaryJokes.find(item => `j${item.id}` === id);
+
+    if ( favJokes.includes(joke) ) return;
+
+    icon.classList.add('fav-joke-icon');
+    icon.classList.remove('random-joke-icon');
+
+    joke.isFavourite = true;
+    favJokes.push(joke);
+
+    localStorage.setItem( 'fav-jokes', JSON.stringify(favJokes) );
+    jokeMaker(joke, favouriteContainer);
+}
+
+function removeFromFavourite(icon, id, parent) {
+    icon.classList.remove('fav-joke-icon');
+    icon.classList.add('random-joke-icon');
+
+    favJokes = favJokes.filter(item => `j${item.id}` !== id);
+
+    const joke = temporaryJokes.find(item => `j${item.id}` === id);
+    joke.isFavourite = false;
+
+    if (parent === jokesContainer) {
+        favouriteContainer.querySelector(`#${id}`).remove();
+    } else {
+        if ( jokesContainer.querySelector(`#${id}`) ) {
+            const card = jokesContainer.querySelector(`#${id}`)
+                .querySelector('.joke-card__favourite');
+
+            card.classList.remove('fav-joke-icon');
+            card.classList.add('random-joke-icon');
+        }
+
+        favouriteContainer.querySelector(`#${id}`).remove();
+    }
+
+
+    localStorage.setItem( 'fav-jokes', JSON.stringify(favJokes) );
+}
+
+findJokeForm.addEventListener('submit', function(e) {
+    e.preventDefault();
+
+    const checkedElem = this.querySelector('input:checked');
+    if (!checkedElem) return;
+
+    if (checkedElem.value === 'random') 
+        getData(URL);
+
+    if (checkedElem.value === 'categories') {
+        const category = categoryButtons.querySelector('input:checked').value;
+
+        getData(URL + `?category=${category}`);
+    }
+
+    if (checkedElem.value === 'search' && textSearch.value) 
+        getData( URL.slice(0, -7) + `/search?query=${textSearch.value.trim()}` );
     
-    // const favJoke = favouriteJokesArr.find(joke => joke.innerHTML == jokeCard.innerHTML);
-    // if (favJoke) favJoke.querySelector('#favourite-icon').src = "img/favourite-2.svg";   
-
-    jokesContainer.prepend(jokeCard);
-});      
-};
-
-chooseJokeForm.addEventListener('click', event => {
-    if ( event.target.closest('.category-btn') ||
-         event.target.closest('.input-show-joke') ) 
-         createJoke( getURL() );
 });
 
-inputRandom.addEventListener('change', () => {
-    inputsButtons.style.display = "none";
-    inputTextSearch.style.display = "none";
-    inputTextSearch.value = '';
-});
-
-inputFromCategories.addEventListener('change', () => {
-    inputsButtons.style.display = "block";
-    inputTextSearch.style.display = "none";
-    inputTextSearch.value = '';
-});
-
-inputSearch.addEventListener('change', () => {
-    inputTextSearch.style.display = "block";
-    inputsButtons.style.display = "none";
-});
-
-// Добавить в избранное
-jokesContainer.addEventListener('click', event => {
-    const favIco = event.target.closest('#favourite-icon');
-
-    if (!favIco) return;
-
-    favIco.src = favIco.dataset.backdrop;
-
-    const renderJoke = event.target.closest('.render-joke'),
-          renderJokeInner = renderJoke.innerHTML;
-          
-    favCard = document.createElement('article');
-    favCard.className = 'fav-joke';
-    favCard.innerHTML = renderJokeInner;
+findJokeForm.addEventListener('click', e => {
+    const target = e.target;
     
-    if ( favouriteJokesArr.includes(renderJokeInner) ) return;
+    if ( target.closest('.random') ) {
+        categoryButtons.classList.add('hide');
+        textSearch.classList.add('hide');
+    }
+    
+    if ( target.closest('.categories') ) {
+        textSearch.classList.add('hide');
+        categoryButtons.classList.remove('hide');
+    }
 
-    favouriteContainer.prepend(favCard);
-    favouriteJokesArr.push(favCard.innerHTML);
-    localStorage.setItem( 'jokeCards', JSON.stringify(favouriteJokesArr) );
+    if ( target.closest('.search') ) {
+        textSearch.classList.remove('hide');
+        categoryButtons.classList.add('hide');
+    }
 });
 
-// Удалить из избранного
-favouriteContainer.addEventListener('click', event => {
-    const favIco = event.target.closest('#favourite-icon');
+jokesContainer.addEventListener('click', function(e) {
+    const target = e.target,
+        favIcon = target.closest('.joke-card__favourite');
 
-    if (!favIco) return;
+    if (!favIcon) return;
 
-    const favJoke = event.target.closest('.fav-joke'),
-          favJokeInner = favJoke.innerHTML;     
+    const jokeCardId = target.closest('.joke-card').id;
 
-    favouriteJokesArr.splice( favouriteJokesArr.indexOf(favJokeInner), 1 );   // Получаем индекс нажатой шутки, и удаляем её из масива
-    favJoke.remove();                                                         // Удаляем из favcontainer
-
-    const renderJoke = [...jokesContainer.querySelectorAll('.render-joke')]   // Получаю все элементы render-joke
-                       .find(joke => joke.innerHTML == favJokeInner);         // Нахожу тот который сходится с шуткой в избранном
-
-    if (renderJoke) renderJoke.querySelector('#favourite-icon').src = "img/favourite-1.svg";  // В той которой сошлась меняю сердечко
-
-    localStorage.setItem( 'jokeCards', JSON.stringify(favouriteJokesArr) );   // Меняем localstorage
+    if ( favIcon.matches('.fav-joke-icon') ) {
+        removeFromFavourite(favIcon, jokeCardId, this);
+    } else {
+        addToFavourite(favIcon, jokeCardId);
+    }
 });
 
-jokesClear.addEventListener('click', () => jokesContainer.innerHTML = "");
+favouriteContainer.addEventListener('click', function(e) {
+    const target = e.target,
+        favIcon = target.closest('.joke-card__favourite');
+
+    if (!favIcon) return;
+
+    const jokeCardId = target.closest('.joke-card').id;
+
+    removeFromFavourite(favIcon, jokeCardId, this);
+});
 
 favouriteClear.addEventListener('click', () => {
     localStorage.clear();
-    favouriteContainer.innerHTML = "";
-    while (favouriteContainer.firstChild) {
-        favouriteContainer.removeChild(favouriteContainer.firstChild);
-    }
+
+    favouriteContainer.innerHTML = '';
+});
+
+searchClear.addEventListener('click', e => {
+    e.preventDefault();
+    jokesContainer.innerHTML = '';
 });
 
 mobileBtn.addEventListener('click', () => {
     mobileBtn.classList.toggle('open');
-    favourite.classList.toggle('show');
-    main.classList.toggle('blackout');
+    favouriteSection.classList.toggle('show');
 });
 
 
