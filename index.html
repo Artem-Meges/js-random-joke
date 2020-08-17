@@ -34,7 +34,7 @@
                         From categories
                     </label>
                         
-                    <div class="category-buttons hide">
+                    <div class="category-buttons">
                         <label>
                             <input type="radio" value="animal" name="category">
                             <span class="category-btn">Animal</span>   
@@ -67,7 +67,7 @@
                         Search
                     </label>
 
-                    <input class="hide input-text-search" type="search" id="input-text-search" placeholder="Free text search..."> 
+                    <input class="input-text-search" type="search" id="input-text-search" placeholder="Free text search..."> 
                         
                     <div class="find-joke__form-inner">
                         <input type="submit" class="input-show-joke btn" value="Get a joke">
@@ -83,16 +83,18 @@
 
     </main>
 
-    <aside id="favourite-section" class="favourite">
-        <header class="favourite__header">
-            <h2>Favourite</h2>
-            <button id="favourite__clear" class="btn clear-btn">Clear</button>
-        </header>
-        <div class="favourite-container" id="favourite-container"></div>   
-    </aside>
+    <div class="favourite-wrapper" id="favourite-wrapper">
+        <aside id="favourite" class="favourite">
+            <header class="favourite__header">
+                <h2>Favourite</h2>
+                <button id="favourite__clear" class="btn clear-btn">Clear</button>
+            </header>
+            <div class="favourite-container" id="favourite-container"></div>   
+        </aside>
+    </div>
 
     <aside class="favourite--mobile">
-        <div id="mobile-btn">
+        <div class="mobile-btn" id="mobile-btn">
             <span></span>
             <span></span>
         </div>

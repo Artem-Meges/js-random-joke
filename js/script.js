@@ -6,7 +6,8 @@ const findJokeForm = document.querySelector('#find-joke__form'),
       searchClear = document.querySelector('#search-clear'),
       favouriteClear = document.querySelector('#favourite__clear'),
       mobileBtn = document.querySelector('#mobile-btn'),
-      favouriteSection = document.querySelector('#favourite-section');
+      favourite = document.querySelector('#favourite'),
+      favouriteWrapper = document.querySelector('#favourite-wrapper');
 
 const URL = 'https://api.chucknorris.io/jokes/random';
 
@@ -153,9 +154,11 @@ findJokeForm.addEventListener('submit', function(e) {
         getData(URL);
 
     if (checkedElem.value === 'categories') {
-        const category = categoryButtons.querySelector('input:checked').value;
-
-        getData(URL + `?category=${category}`);
+        if (categoryButtons.querySelector('input:checked')) {
+            const category = categoryButtons.querySelector('input:checked').value;
+            
+            getData(URL + `?category=${category}`);
+        } else return;
     }
 
     if (checkedElem.value === 'search' && textSearch.value) 
@@ -163,22 +166,22 @@ findJokeForm.addEventListener('submit', function(e) {
     
 });
 
-findJokeForm.addEventListener('click', e => {
+findJokeForm.addEventListener('click', function(e) {
     const target = e.target;
     
     if ( target.closest('.random') ) {
-        categoryButtons.classList.add('hide');
-        textSearch.classList.add('hide');
+        categoryButtons.classList.remove('show');
+        textSearch.classList.remove('show');
     }
     
     if ( target.closest('.categories') ) {
-        textSearch.classList.add('hide');
-        categoryButtons.classList.remove('hide');
+        textSearch.classList.remove('show');
+        categoryButtons.classList.add('show');
     }
 
     if ( target.closest('.search') ) {
-        textSearch.classList.remove('hide');
-        categoryButtons.classList.add('hide');
+        textSearch.classList.add('show');
+        categoryButtons.classList.remove('show');
     }
 });
 
@@ -208,20 +211,20 @@ favouriteContainer.addEventListener('click', function(e) {
     removeFromFavourite(favIcon, jokeCardId, this);
 });
 
-favouriteClear.addEventListener('click', () => {
+favouriteClear.addEventListener('click', function() {
     localStorage.clear();
 
     favouriteContainer.innerHTML = '';
 });
 
-searchClear.addEventListener('click', e => {
+searchClear.addEventListener('click', function(e) {
     e.preventDefault();
     jokesContainer.innerHTML = '';
 });
 
-mobileBtn.addEventListener('click', () => {
+mobileBtn.addEventListener('click', function() {
     mobileBtn.classList.toggle('open');
-    favouriteSection.classList.toggle('show');
+    favouriteWrapper.classList.toggle('show');
 });
 
 

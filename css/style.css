@@ -106,12 +106,9 @@ input:focus {
     background: var(--dark);
 }
 
-.hide {
-    display: none;
-}
-
 .category-buttons {
     margin: 10px 0 25px 0;
+    display: none;
 }
 
 .category-btn {
@@ -140,6 +137,7 @@ input:focus {
     padding: 10px 15px;
     font-size: 16px;
     color: var(--dark);
+    display: none;
 }
 
 .find-joke__form-inner {
@@ -169,6 +167,7 @@ input:focus {
 }
 
 .joke-card {
+    min-width: 350px;
     max-width: 700px;
     min-height: 225px;
     border-radius: 20px;
@@ -289,6 +288,7 @@ input:focus {
     max-width: 556px;
     margin: 0 auto;
     padding: 0 20px;
+    min-height: 100vh;
 }
 
 .clear-btn {
@@ -301,8 +301,8 @@ input:focus {
     display: none;
 }
 
-.blackout {
-    background: rgba(0 0 0 / 30%);
+.show {
+    display: flex;
 }
 
 @media (max-width: 1350px) {
@@ -311,21 +311,50 @@ input:focus {
     }
 }
 
+@media (max-width: 1100px) {
+    .category-buttons {
+        flex-wrap: wrap;
+    }
+
+    .category-buttons label {
+        margin-bottom: 20px;
+    }
+
+    .joke-card {
+        padding: 10px;
+    }
+
+    .joke-card__category {
+        bottom: 30px;
+    }
+
+    .btn {
+        padding: 10px 22px;
+        max-width: 137px;
+    }
+}
+
 @media (max-width: 834px) {
+    .header h1 {
+        margin: 50px 0 0 0;
+    }
+
     .favourite {
-        display: none;
         position: absolute;
         right: 0;
-        min-height: 100vh;
         width: 60vw;
     }
 
-    .show {
-        display: block;
+    .favourite-wrapper {
+        position: fixed;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0, 0, 0, 0.5);
+        display: none;
     }
 
-    .favourite h2 {
-        display: none;
+    .show {
+        display: flex;
     }
 
     .favourite--mobile {
@@ -334,20 +363,20 @@ input:focus {
         height: 50px;
         align-items: center;
         justify-content: space-between;
-        margin-right: 25px;
+        margin-right: 10px;
         position: absolute;
         right: 0;
     }
 
     .favourite--mobile h2{
         font-weight: 500;
-        font-size: 20px;
+        font-size: 1.2rem;
         line-height: 28px;
         color: var(--light-grey);
         z-index: 2;
     }
 
-    #mobile-btn {
+    .mobile-btn {
         width: 28px;
         height: 28px;
         border-radius: 50%;
@@ -356,7 +385,7 @@ input:focus {
         cursor: pointer;
     }
 
-    #mobile-btn span {
+    .mobile-btn span {
         background-color: var(--light);
         position: absolute;
         width: 14px;
@@ -366,23 +395,23 @@ input:focus {
         left: 7px;
     }
 
-    #mobile-btn span + span {
+    .mobile-btn span + span {
         top: 16px;
     }
 
-    #mobile-btn.open span:nth-child(1) {
+    .mobile-btn.open span:nth-child(1) {
         transform: rotate(45deg);
         top: 13px;
         left: 7px;
     }
 
-    #mobile-btn.open span:nth-child(2) {
+    .mobile-btn.open span:nth-child(2) {
         transform: rotate(-45deg);
         top: 13px;
         left: 7px;
     }
 
-    .render-joke {
+    .joke-card {
         margin-top: 10px;
     }
 
@@ -391,10 +420,6 @@ input:focus {
         justify-content: space-between;
         align-items: center;
     }
-
-    .render-joke__category {
-        position: static;
-    }
 }
 
 @media (max-width: 700px) {
@@ -402,11 +427,7 @@ input:focus {
         width: 72vw;
     }
 
-    .render-joke {
-        padding: 25px;
-    }
-
-    .render-joke__favourite {
+    .joke-card__favourite {
         top: 30px;
         right: 30px;
     }
@@ -422,19 +443,38 @@ input:focus {
         max-width: 129px;
         min-height: 49px;
     }
+
+    .joke-card__img {
+        display: none;
+    }
+
+    .joke-card {
+        padding: 20px 20px 0 20px;
+        min-height: 180px;
+    }
+}
+
+@media (max-width: 410px) {
+    .joke-card {
+        min-width: 300px;
+    }
 }
 
 @media (max-width: 380px) {
-    .render-joke__favourite {
+    .joke-card__favourite {
         top: 20px;
         right: 20px;
     }
 
-    .render-joke__id img {
+    .joke-card__id img {
         margin-left: 5px;
     }
 
-    .render-joke__icon {
+    .joke-card__icon {
         margin-right: 9px;
+    }
+
+    .joke-card {
+        min-width: 250px;
     }
 }
